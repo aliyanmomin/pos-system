@@ -93,9 +93,9 @@ export default function App() {
                     itemName: item.name,
                     quantity: item.qty,
                     price: item.price,
-                    total: itemTotal + item.tax,
-                    tax: tax,
-                    paymentMethod
+                    total: parseFloat((itemTotal + tax).toFixed(2)),
+                    tax: parseFloat(tax.toFixed(2)),
+                    paymentMethod: paymentMethod
                 });
             }
 
@@ -186,14 +186,14 @@ export default function App() {
                             <Divider sx={{ marginY: 1 }} />
                             {cart.map((item) => (
                                 <Box key={item.id} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginY: 1 }}>
-                                    <Typography>{item.name} x {item.qty} - ${(item.price * item.qty).toFixed(2)}</Typography>
+                                    <Typography>{item.name} x {item.qty} - ${item.price * item.qty.toFixed(2)}</Typography>
                                     <IconButton color="error" onClick={() => removeFromCart(item.id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Box>
                             ))}
                             <Divider sx={{ marginY: 1 }} />
-                            <Typography variant="h6">Total: ${cart.reduce((total, item) => (total + item.price * item.qty), 0).toFixed(2)}</Typography>
+                            <Typography variant="h6">Total: ${cart.reduce((total, item) => total + (item.price * item.qty) + item.tax, 0).toFixed(2)}</Typography>
                             <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
                                 <Button variant="contained" color="primary" startIcon={<AttachMoneyIcon />} onClick={() => handleCheckout('Cash')}>Cash</Button>
                                 <Button variant="contained" color="secondary" startIcon={<CreditCardIcon />} onClick={() => handleCheckout('Card')}>Card</Button>

@@ -24,10 +24,17 @@ app.get("/", (req, res) => {
 
 // API route to handle purchases
 app.post('/api/purchases', async (req, res) => {
-    const { itemName, quantity, price, total } = req.body;
+    const { itemName, quantity, price, total, tax, paymentMethod } = req.body;
 
     try {
-        const newPurchase = new Purchase({ itemName, quantity, price, total });
+        const newPurchase = new Purchase({ 
+            itemName, 
+            quantity, 
+            price, 
+            total,
+            tax,
+            paymentMethod
+         });
         await newPurchase.save();
         res.json(newPurchase);
     } catch (error) {
